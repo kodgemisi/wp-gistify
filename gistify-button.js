@@ -1,23 +1,29 @@
 (function($) {
-  var gistifyShortCodeRx = /(\[gistify.*?\])(?!\s*<\/span>)/gm;
   var gistifyShortCodeAttributesRx =/\s(.*?)="(.*?)"/g;
 
   tinymce.PluginManager.add('kodgemisi_gistify_button', function( editor, url ) {
 
     editor.on('LoadContent', function(e) {
 
-      console.log('CLick event is bind to .gistify-shortcode');
-
       // switching from text tab in editor invokes this event
       // In change event's handler isDirty returns false
       // So wee need to bind click events here
       bindClickToShortcodes(editor);
 
+      // !!! caution !!!
+      // ----------------------------------
+      // Below code is on hold because when style or class attribute added to the "<p>" tag
+      // in iframe editor, behavior of it changes and explicit <p> tag is added to the content
+      // which is undesired. Furthermore additional <p> elemet is ambigious for the end user when added
+      // by the plugin.
+      // So [gistify ...] shortcodes are decided to be appeared clean until a better
+      // way to highlight them is found.
+
       // Add stylesheet to editor iframe to style shortcodes
-      if($(editor.iframeElement.contentWindow.document.body).find('#gistify-style').size() == 0) {
-        $(editor.iframeElement.contentWindow.document.body)
-          .append('<style type="text/css" id="gistify-style">.gistify-shortcode {background: #efefef;border: 1px solid #ddd;font-family: monospace;cursor: pointer;display: inline-block;}</style>')
-      }
+      // if($(editor.iframeElement.contentWindow.document.body).find('#gistify-style').size() === 0) {
+      //   $(editor.iframeElement.contentWindow.document.body)
+      //     .append('<style type="text/css" id="gistify-style">.gistify-shortcode {background: #efefef;border: 1px solid #ddd;font-family: monospace;cursor: pointer;display: inline-block;}</style>');
+      // }
     });
 
     editor.on('change', function(e) {
@@ -63,27 +69,44 @@
               tooltip: 'Without headers'
             }],
             onsubmit: function(e) {
-              editor.insertContent('<span>[gistify id="' + e.data.gistId + '"]</span>&nbsp;');
+              editor.insertContent(
+                '<span>[gistify id="'
+                + e.data.gistId + '" simple="'
+                + e.data.simple + '" description="'
+                + e.data.description + '" files="'
+                + e.data.files + '"]</span>&nbsp;');
             }
         });
 
       }
     });
-  });// tinymce.PluginManager.add
+  });// end of `tinymce.PluginManager.add`
 
   function shortcodeClickHandler (argument) {
     console.log(this);
 
-    $('#gistify-modal>section').empty().append('<div id="gistify-target">');
+    // in admin page, gistify-target is meant to be unique hence using 'id' instead of class
+    // we are replacing the div so that previous gist is reset
+    $('#gistify-target').replaceWith('<div id="gistify-target">');
 
     var options = extractGistAttribute($(this).text());
 
     $('#gistify-target').gistify(options);
 
-    tb_show('','#TB_inline?width=auto&height=auto&modal=true&inlineId=gistify-modal','');
-    $('#TB_window').attr('style', 'width: auto; height: auto; margin: auto; top: 20px; visibility: visible;left: 20px;right: 20px;bottom:20px;overflow:auto;');
-    $('#TB_ajaxContent').removeAttr('style');
-    $('#gistify-modal>header').css('height', jQuery('#TB_window').width());
+    showModal();
+  }
+
+  // Bind close-modal btn click handler
+  $('#gistify-modal > header > button').click(function closeModal() {
+    $('#gistify-modal>section, #gistify-modal>header, #gistify-modal-curtain')
+      .fadeOut();
+    $('body').removeClass('gistify-modal-open');
+  });
+
+  function showModal() {
+    $('#gistify-modal>section, #gistify-modal>header, #gistify-modal-curtain')
+      .show();
+    $('body').addClass('gistify-modal-open');
   }
 
   function bindClickToShortcodes(editor) {
@@ -109,6 +132,8 @@
     var result = {};
     gistifyShortCodeAttributesRx.lastIndex = 0;
     var match;
+
+    // reading shortcode's attributes
     while( (match = gistifyShortCodeAttributesRx.exec(gistShortcode)) ) {
       var key = match[1].trim();
       var val = match[2].trim();
@@ -116,7 +141,7 @@
       val = val === 'true' ? true : val;
       val = val === 'false' ? false : val;
 
-      val = isNaN(filterInt(val)) ? val : parseInt(val);
+      val = isNaN(filterInt(val)) ? val : parseInt(val, 10);
 
       result[attributeToOptionKeyMap[key]] = val;
     }

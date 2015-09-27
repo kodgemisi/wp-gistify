@@ -8,12 +8,15 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 const GISTIFY_JS_PATH = 'https://rawgit.com/kodgemisi/gistify/dev-init/dist/gistify.js';
 const GISTIFY_CSS_PATH = 'https://rawgit.com/kodgemisi/gistify/dev-init/dist/gistify.css';
 const MODAL_HTML = '
-<div id="gistify-modal" style="display:none;">
-  <header style=" background-color: #ccc; height: 30px; margin: -15px;position: fixed;width: 1560px;z-index: 5;">
-    <span style=" line-height: 30px; margin-left: 20px; font-size: 20px; ">Gistify</span>
-    <div class="tb-close-icon" onclick="tb_remove()"></div>
+<div id="gistify-modal-curtain"></div>
+<div id="gistify-modal">
+  <header>
+    <span>Gistify</span>
+    <button type="button"><i class="mce-ico mce-close"></i></button>
   </header>
-  <section style="padding-top: 25px;"></section>
+  <section>
+    <div id="gistify-target"></div>
+  </section>
 </div>
 ';
 
@@ -38,8 +41,6 @@ function kodgemisi_gistify_add_button_to_admin() {
   if ( get_user_option('rich_editing') == 'true') {
     add_filter("mce_external_plugins", "gistify_add_tinymce_plugin");
     add_filter('mce_buttons', 'gistify_register_button');
-
-    add_thickbox();
     echo MODAL_HTML;
   }
 }
