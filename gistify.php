@@ -80,31 +80,15 @@ function gistify_plugin_assets_for_admin($hook) {
 add_action( 'admin_menu', 'gistify_plugin_menu' );
 
 function gistify_plugin_menu() {
-  add_options_page( 'Gistify Options', 'Gistify', 'manage_options', 'my-unique-identifier', 'gistify_plugin_options' );
+  add_options_page( 'Gistify Options', 'Gistify', 'manage_options', 'gistify-plugin-options', 'gistify_plugin_options' );
 }
 
 function gistify_plugin_options() {
   if ( !current_user_can( 'manage_options' ) )  {
     wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   }
-  echo '<div class="wrap">';
-  echo '<p>Here is where the form would go if I actually had options.</p>';
-  echo '</div>';
-
-
-    add_thickbox(); ?>
-
-    <div id="my-content-id" style="display:none;">
-         <p>
-              This is my hidden content! It will appear in ThickBox when the link is clicked.
-         </p>
-    </div>
-
-    <a href="#TB_inline?width=600&height=550&inlineId=my-content-id" class="thickbox">View my inline content!</a>
-
-    tb_show('','#TB_inline?width=600&height=550&inlineId=my-content-id','')
-<?php
-
+  echo "<script>jQuery(function(){jQuery('#gistify-doc').height(jQuery('#wpbody').height())});</script>";
+  echo '<iframe id="gistify-doc" src="http://kodgemisi.github.io/gistify/" style="width: 100%;"></iframe>';
 }
 
 // Register shortcode

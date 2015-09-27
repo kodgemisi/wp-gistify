@@ -9,7 +9,7 @@
       // switching from text tab in editor invokes this event
       // In change event's handler isDirty returns false
       // So wee need to bind click events here
-      bindClickToShortcodes(editor);
+      bindEventToShortcodes(editor);
 
       // !!! caution !!!
       // ----------------------------------
@@ -29,7 +29,7 @@
 
     editor.on('change', function(e) {
       if(editor.isDirty()) {
-        bindClickToShortcodes(editor);
+        bindEventToShortcodes(editor);
       }
     });
 
@@ -86,7 +86,7 @@
     });
   });// end of `tinymce.PluginManager.add`
 
-  function shortcodeClickHandler (argument) {
+  function shortcodeClickHandler () {
     var $shortCode = $(this);
 
     // in admin page, gistify-target is meant to be unique hence using 'id' instead of class
@@ -129,10 +129,47 @@
     $('body').addClass('gistify-modal-open');
   }
 
-  function bindClickToShortcodes(editor) {
+  function bindEventToShortcodes(editor) {
     $(editor.getBody()).find('>:contains([gistify)')
       .off('mouseenter mouseleave')
       .hover(shortcodeHoverInHandler, shortcodeHoverOutHandler);
+  }
+
+  function shortcodeHoverInHandler(e) {
+    var iframeOffset = $('iframe').offset();
+    var shortcodeOffset = $(this).offset();// this is the DOM element
+    var offset = {
+      top: iframeOffset.top + shortcodeOffset.top, //- $('#gistify-hover-menu').height()
+      left: iframeOffset.left + shortcodeOffset.left
+    };
+
+    $('#gistify-hover-menu').offset(offset);
+    $('#gistify-hover-menu').show();
+
+    var that = this;
+    $('#gistify-hover-menu').off('click').on('click', function () {
+      shortcodeClickHandler.call(that, e);
+      hideHoverMenu();
+    });
+  }
+
+  function shortcodeHoverOutHandler() {
+    $('#gistify-hover-menu').trigger('gistify-hide-requested');
+  }
+
+  $('#gistify-hover-menu').on('gistify-hide-requested', function () {
+    setTimeout(function() {
+      if(!$('#gistify-hover-menu').is(':hover')) {
+        hideHoverMenu();
+      }
+    }, 50);
+  });
+
+  $('#gistify-hover-menu').on('mouseleave', hideHoverMenu);
+
+  function hideHoverMenu() {
+    $('#gistify-hover-menu').hide();
+    $('#gistify-hover-menu').css('top', 0).css('left', 0);
   }
 
   function filterInt(value) {
@@ -175,42 +212,5 @@
       mode: result.mode
     };
   }
-
-  function shortcodeHoverInHandler(e) {
-    var iframeOffset = $('iframe').offset();
-    var shortcodeOffset = $(this).offset();// this is the DOM element
-    var offset = {
-      top: iframeOffset.top + shortcodeOffset.top, //- $('#gistify-hover-menu').height()
-      left: iframeOffset.left + shortcodeOffset.left
-    };
-
-    $('#gistify-hover-menu').offset(offset);
-    $('#gistify-hover-menu').show();
-
-    var that = this;
-    $('#gistify-hover-menu').off('click').on('click', function () {
-      shortcodeClickHandler.call(that, e);
-      hideHoverMenu();
-    });
-  }
-
-  function shortcodeHoverOutHandler() {
-    $('#gistify-hover-menu').trigger('gistify-hide-requested');
-  }
-
-  function hideHoverMenu() {
-    $('#gistify-hover-menu').hide();
-    $('#gistify-hover-menu').css('top', 0).css('left', 0);
-  }
-
-  $('#gistify-hover-menu').on('gistify-hide-requested', function () {
-    setTimeout(function() {
-      if(!$('#gistify-hover-menu').is(':hover')) {
-        hideHoverMenu();
-      }
-    }, 50);
-  });
-
-  $('#gistify-hover-menu').on('mouseleave', hideHoverMenu);
 
 })(jQuery);
