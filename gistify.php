@@ -8,6 +8,9 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 const GISTIFY_JS_PATH = 'https://rawgit.com/kodgemisi/gistify/dev-init/dist/gistify.js';
 const GISTIFY_CSS_PATH = 'https://rawgit.com/kodgemisi/gistify/dev-init/dist/gistify.css';
 const MODAL_HTML = '
+<div id="gistify-hover-menu">
+  <button type="button" class="button">Edit</button>
+</div>
 <div id="gistify-modal-curtain"></div>
 <div id="gistify-modal">
   <header>

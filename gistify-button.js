@@ -131,8 +131,8 @@
 
   function bindClickToShortcodes(editor) {
     $(editor.getBody()).find('>:contains([gistify)')
-      .off('click')
-      .on('click', shortcodeClickHandler);
+      .off('mouseenter mouseleave')
+      .hover(shortcodeHoverInHandler, shortcodeHoverOutHandler);
   }
 
   function filterInt(value) {
@@ -175,4 +175,42 @@
       mode: result.mode
     };
   }
+
+  function shortcodeHoverInHandler(e) {
+    var iframeOffset = $('iframe').offset();
+    var shortcodeOffset = $(this).offset();// this is the DOM element
+    var offset = {
+      top: iframeOffset.top + shortcodeOffset.top, //- $('#gistify-hover-menu').height()
+      left: iframeOffset.left + shortcodeOffset.left
+    };
+
+    $('#gistify-hover-menu').offset(offset);
+    $('#gistify-hover-menu').show();
+
+    var that = this;
+    $('#gistify-hover-menu').off('click').on('click', function () {
+      shortcodeClickHandler.call(that, e);
+      hideHoverMenu();
+    });
+  }
+
+  function shortcodeHoverOutHandler() {
+    $('#gistify-hover-menu').trigger('gistify-hide-requested');
+  }
+
+  function hideHoverMenu() {
+    $('#gistify-hover-menu').hide();
+    $('#gistify-hover-menu').css('top', 0).css('left', 0);
+  }
+
+  $('#gistify-hover-menu').on('gistify-hide-requested', function () {
+    setTimeout(function() {
+      if(!$('#gistify-hover-menu').is(':hover')) {
+        hideHoverMenu();
+      }
+    }, 50);
+  });
+
+  $('#gistify-hover-menu').on('mouseleave', hideHoverMenu);
+
 })(jQuery);
