@@ -69,12 +69,15 @@
               tooltip: 'Without headers'
             }],
             onsubmit: function(e) {
+              var idAttr = ' id="'+ e.data.gistId + '"';
+              var filesAttr = e.data.files ? ' files="'+ e.data.files + '"' : '';
+              var simpleAttr = e.data.simple ? ' simple="'+ e.data.simple + '"' : '';
+              var descriptionAttr = e.data.description ? ' description="'+ e.data.description + '"' : '';
+
               editor.insertContent(
-                '<span>[gistify id="'
-                + e.data.gistId + '" simple="'
-                + e.data.simple + '" description="'
-                + e.data.description + '" files="'
-                + e.data.files + '"]</span>&nbsp;');
+                '<span>[gistify'
+                + idAttr + filesAttr + simpleAttr + descriptionAttr
+                + ']</span>&nbsp;');
             }
         });
 
@@ -92,6 +95,10 @@
     var options = extractGistAttribute($(this).text());
 
     $('#gistify-target').gistify(options);
+
+    //TODO keep reference to clicked shortcode for id insertion
+
+    //TODO bind a callback to gistify-create event
 
     showModal();
   }
@@ -146,6 +153,13 @@
       result[attributeToOptionKeyMap[key]] = val;
     }
     result.mode = result.gistId ? 'edit' : 'create';
-    return result;
+
+    // we only need this two in admin pages
+    // above function is kept just in case
+    // might be pruned in the future
+    return {
+      gistId: result.gistId,
+      mode: result.mode
+    };
   }
 })(jQuery);
