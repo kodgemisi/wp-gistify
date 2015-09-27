@@ -1,5 +1,6 @@
 (function($) {
   var gistifyShortCodeAttributesRx =/\s(.*?)="(.*?)"/g;
+  var shortcodeIdAttrRx = /id="\s*"/;
 
   tinymce.PluginManager.add('kodgemisi_gistify_button', function( editor, url ) {
 
@@ -86,7 +87,7 @@
   });// end of `tinymce.PluginManager.add`
 
   function shortcodeClickHandler (argument) {
-    console.log(this);
+    var $shortCode = $(this);
 
     // in admin page, gistify-target is meant to be unique hence using 'id' instead of class
     // we are replacing the div so that previous gist is reset
@@ -94,11 +95,23 @@
 
     var options = extractGistAttribute($(this).text());
 
+    // in this callback, if the gist is in create mode, created gist's id
+    // will be inserted to gist shortcode in the editor as:
+    // [gistify id="<inserted here>"]
+    options.onGistCreated = function (gistData) {
+
+      if( shortcodeIdAttrRx.test($shortCode.text()) ) {
+        var updatedShortcode = $shortCode.text().replace(shortcodeIdAttrRx, 'id="'+ gistData.id +'"');
+      }
+      else {
+        updatedShortcode = $shortCode.text().replace('[gistify', '[gistify id="'+ gistData.id +'"');
+      }
+      $shortCode.text(updatedShortcode);
+
+      // TODO check if need to notify the editor about the change?
+    };
+
     $('#gistify-target').gistify(options);
-
-    //TODO keep reference to clicked shortcode for id insertion
-
-    //TODO bind a callback to gistify-create event
 
     showModal();
   }
