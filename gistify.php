@@ -102,8 +102,8 @@ function gistify_plugin_options() {
   if ( !current_user_can( 'manage_options' ) )  {
     wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   }
-  echo "<script>jQuery(function(){jQuery('#gistify-doc').height(jQuery('#wpwrap').height()-72)});</script>";
-  echo '<iframe id="gistify-doc" src="http://kodgemisi.github.io/gistify/" style="width: 100%;"></iframe>';
+  echo "<script>jQuery(function(){jQuery('#gistify-doc').height(jQuery('#wpwrap').height()-72)});</script>";// 72 = 32 + 40 (header + footer heigh)
+  echo '<iframe id="gistify-doc" src="http://kodgemisi.github.io/wp-gistify/" style="width: 100%;"></iframe>';
 }
 
 // Register shortcode
