@@ -18,8 +18,8 @@
       <div class="inner">
 
         <header>
-          <h1>Wp-gistify</h1>
-          <h2></h2>
+          <h1>Gistify Wordpress Plugin</h1>
+          <h2>Wp-gistify</h2>
         </header>
 
         <section id="downloads" class="clearfix">
@@ -31,48 +31,41 @@
         <hr>
 
         <section id="main_content">
-          <p>=== Gistify ===
-Contributors: dorukdestan
-Tags: syntaxhighlighter, github, gist, code
-Requires at least: 4.0.0
-Tested up to: 4.3.1
-Stable tag: 4.3.1
-License: MPL 2.0
-License URI: <a href="https://www.mozilla.org/en-US/MPL/2.0/">https://www.mozilla.org/en-US/MPL/2.0/</a></p>
+          <h3>What?</h3>
+          <p>This is a Wordpress plugin to let you create and edit Github gist in Wordpress' bult-in editor and show them in your Wordpress posts</p>
 
-<p>Use Github Gists in your Wordpress posts and pages as code samples.</p>
+          <h3>How?</h3>
+          <p>The plugin provides a shortcode <code>[gistify id="&lt;gist_id&gt;"]</code>.</p>
+          <p>
+            <strong>In admin pages</strong> this shortcode provides a way to create and update gists<br>
+            <strong>In posts and pages</strong> this shortcodes renders into embedded gists with some customization options.</p>
 
-<p>Create and edit gists from Wordpress editor.</p>
+          <h3>FAQ</h3>
+          <h4>Why do you need my Github token? It is optional.</h4>
 
-<p>== Description ==
-Use Github Gists in your Wordpress posts and pages as code samples.</p>
+          <p>You can show any gist WITHOUT a token.</p>
 
-<p>Create and edit gists from Wordpress editor.</p>
+          <p>We only need Github token for creating gists on behalf of you and update your gists. We don't need
+                    a token to show any gists.</p>
 
-<p>The plugin provides a shortcode, [gistify id=\"\"] so that you can embed any gist to your post.</p>
+          <p>Note that you can create anonymous gist without a token but you won't be able to edit or delete them.</p>
 
-<p><strong>The difference of this plugin from other gist plugins</strong> is
-that you can also create new gists and edit existing gists from Wordpress\' standart editor.</p>
+          <p>For further details please see: http://kodgemisi.github.io/gistify/token-help.html</p>
 
-<p>Note that this plugin utilizes gistify jQuery plugin (<a href="http://kodgemisi.github.io/gistify/">http://kodgemisi.github.io/gistify/</a>) and
-may be thought as a Wordpress wrapper for it.</p>
+          <h4>What about my token security?</h4>
 
-<p>== Installation ==
-Standard Wordpress plugin installation rules allies. No special requirements.</p>
+          <p>We don't see your token. Your token is stored in `localStorage` of your browser.</p>
+          <p>The `localStorage` is accessable from only your own machine and valid for only your own wordpress domain.</p>
 
-<p>== Frequently Asked Questions ==
-None yet</p>
+          <h3>License</h3>
+          <p>
+            This plugin and all its source code are protected with Mozilla Public License version 2 (MPL 2.0).<br>
+            Note that MPL 2.0 license is compatible with GPL version 2 or later.<br>
+            See <a href="http://www.gnu.org/licenses/license-list.html#MPL-2.0" target="_blank">http://www.gnu.org/licenses/license-list.html#MPL-2.0</a>
+          </p>
 
-<p>== Screenshots ==
-1. Shortcode usage in Wordpress editor
-2. Edit gist in Wordpress
-3. Result in your rendered post</p>
-
-<p>== Changelog ==
-Initial release</p>
-
-<p>== Upgrade Notice ==
-Initial release</p>
+          <h3>Bug report and support</h3>
+          <p>Please report any bugs and feature request via <a href="https://github.com/kodgemisi/wp-gistify/issues" target="_blank">Github issues</a>.</p>
         </section>
 
         <footer>
