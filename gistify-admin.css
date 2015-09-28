@@ -3,7 +3,7 @@
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   top: 0;
   left: 0;
 }
@@ -15,8 +15,8 @@
 }
 
 #gistify-modal > section {
-  background-color: #23282d;
-  border: 3px solid #f1f1f1;
+  background-color: #f1f1f1;
+  border: 3px solid #23282d;
   border-radius: 3px;
   position: fixed;
   top: 69px;
@@ -27,12 +27,11 @@
   overflow: auto;
   z-index: 10000;
   border-top: 0;
-  border-bottom-width: 1px;
 }
 
 #gistify-modal > header {
   font-size: 1.3rem;
-  background-color: #f1f1f1;
+  background-color: #23282d;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   height: 40px;
@@ -42,6 +41,11 @@
   left: 20px;
   right: 20px;
   padding-left: 22px;
+  color: white;
+}
+
+#gistify-modal > header i {
+  color: white;
 }
 
 #gistify-modal > header > button {
@@ -62,6 +66,10 @@
 */
 .gistify-modal-open {
   overflow: hidden !important;
+}
+
+.gistify-modal-open #wpadminbar {
+  z-index: 9999 !important;
 }
 
 #gistify-hover-menu {

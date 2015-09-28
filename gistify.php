@@ -87,7 +87,7 @@ function gistify_plugin_options() {
   if ( !current_user_can( 'manage_options' ) )  {
     wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
   }
-  echo "<script>jQuery(function(){jQuery('#gistify-doc').height(jQuery('#wpbody').height())});</script>";
+  echo "<script>jQuery(function(){jQuery('#gistify-doc').height(jQuery('#wpwrap').height()-72)});</script>";
   echo '<iframe id="gistify-doc" src="http://kodgemisi.github.io/gistify/" style="width: 100%;"></iframe>';
 }
 
