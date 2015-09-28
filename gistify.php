@@ -1,6 +1,21 @@
 <?php
 /*
 Plugin Name: Gistify
+Plugin URI:  http://wordpress.org/extend/plugins/gistify/
+Description: Create, update and add Github gists in Wordpress
+Version:     1.0.0
+Author:      Kod Gemisi Ltd.
+Author URI:  http://www.kodgemisi.com
+Text Domain: gistify
+Domain Path: /gistify
+License:     MPL 2.0
+
+Copyright © September, 2015 Kod Gemisi Ltd.
+
+This Source Code Form is subject to
+the terms of the Mozilla Public License, v. 2.0.
+If a copy of the MPL was not distributed with this file,
+You can obtain one at https://mozilla.org/MPL/2.0/.
 */
 
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
