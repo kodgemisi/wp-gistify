@@ -5,7 +5,7 @@ import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins();
 
-gulp.task('styles', () => {
+gulp.task('styles', ['clean'], () => {
   return gulp.src('src/styles/gistify-admin.scss')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
@@ -19,7 +19,7 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('js', () => {
+gulp.task('js', ['clean'], () => {
   return gulp.src(['src/js/gistify-button.js', 'src/js/gistify-render.js'])
     .pipe($.uglify())
     .pipe(gulp.dest('.'));
@@ -31,19 +31,17 @@ gulp.task('build', ['styles', 'js'], () => {
   gulp.src('src/gistify.php')
     .pipe(gulp.dest('.'));
 
-  var ret = gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
-  return ret;
+  gulp.src(['./*.js', './*.css', './*.php', './*.txt'])
+  .pipe($.size({showFiles: true}));
 });
 
-gulp.task('default', ['clean'], () => {
-  gulp.start('build');
-});
+gulp.task('default', ['build']);
 
 // Prepares a zippeble folder ready-to deploy to Wordpress
 // by pruning all unnecessary files
 // This task should only be used in a new branch intended for a 
-// release because it deletes node_modules as well. In development
-// that maybe frustrating
+// release because it deletes node_modules and .git as well.
+// In development that maybe frustrating
 gulp.task('dist', ['default'], () => {
-  del(['src', 'node_modules', 'gulpfile.babel.js', 'package.json']);
+  del(['src', 'node_modules', '.gitignore', '.git', 'package.json']);
 });
