@@ -1,0 +1,33 @@
+{
+  "name": "gistify",
+  "description": "jQuery plugin to embed, create and edit Github gists",
+  "version": "1.0.0",
+  "author": "Kod Gemisi Ltd. <selam@kodgemisi.com>",
+  "homepage": "http://kodgemisi.com/",
+  "main": "dist/gistify.js",
+  "repository": "https://github.com/kodgemisi/gistify",
+  "keywords": [
+    "gist",
+    "github",
+    "syntax-highlighting"
+  ],
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "babel-core": "^5.5.6",
+    "del": "^1.1.1",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^1.2.5",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-minify-css": "^1.1.1",
+    "gulp-minify-html": "^1.0.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.0",
+    "gulp-size": "^1.2.1",
+    "gulp-sourcemaps": "^1.5.0",
+    "gulp-uglify": "^1.4.1",
+    "wiredep": "^2.2.2"
+  }
+}
