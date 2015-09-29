@@ -41,6 +41,9 @@ gulp.task('default', ['clean'], () => {
 
 // Prepares a zippeble folder ready-to deploy to Wordpress
 // by pruning all unnecessary files
+// This task should only be used in a new branch intended for a 
+// release because it deletes node_modules as well. In development
+// that maybe frustrating
 gulp.task('dist', ['default'], () => {
-  del('src', 'node_modules', 'gulpfile.babel.js', 'package.json');
+  del(['src', 'node_modules', 'gulpfile.babel.js', 'package.json']);
 });
